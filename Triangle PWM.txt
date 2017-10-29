@@ -1,0 +1,55 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use iee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
+
+entity triangle is
+	port( clk : in std_logic;
+			reset : in std_logic;
+			pwm : out std_logic_vector(7 downto 0);
+end triangle;
+
+architecture Behavioral of triangle is
+
+signal count1, count2 : integer := 0;
+signal direction : std_logic := '0';
+
+begin
+
+process(clk,reset)
+begin
+	if(reset = '1') then
+		count1 <= 0;
+		count2 <= 129;
+	elsif(rising_edge(clk)) then
+		if(count1 = 253) then
+			count1 <= 0;
+				if(direction = '0') then
+					direction <= '1';
+					count2 <= 126;
+				else
+					direction <= '0';
+					count2 <= 129;
+				end if;
+			else 
+				count1 <= count1 + 1;
+			end if;
+			if(direction = '0') then
+				if(count2 = 255) then
+					count2 <= 0;
+				else
+					count2 <= count2 + 1;
+				end if;
+			else
+				if(count2 = 255) then
+					count2 <= 0;
+				else
+					count2 <= count2 - 1;
+				end if;
+			end if;
+		end if;
+end process;
+
+pwm <= conv_std_logic_vector(count2,8);
+
+end Behavioral;

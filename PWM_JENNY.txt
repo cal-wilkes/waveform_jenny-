@@ -17,8 +17,8 @@ end pulse_modulator;
 
 architecture Behavioural of pulse_modulator is 
 
-signal counter: interger (999 downto 0);
-signal max_counter: interger := 999;
+signal counter: integer (999 downto 0);
+signal max_counter: integer := 999;
 
 begin
 

@@ -18,7 +18,7 @@ end pulse_modulator;
 architecture Behavioural of pulse_modulator is 
 
 signal counter: interger (999 downto 0);
-signa max_counter: interger := 999;
+signal max_counter: interger := 999;
 
 begin
 
@@ -29,11 +29,11 @@ process(CLK, RESET)
 			
 			elsif(rising_edge(CLK)) then 
 			
-					if((counter < max_counter) and (counder < num_of_cycles)) then
+					if((counter < max_counter) and (counter < num_of_cycles)) then
 						counter <= counter + 1;
 						PWM = '1';
 					
-					elsif ((counter < max_counter) and (counder >= num_of_cycles))) then 
+					elsif ((counter < max_counter) and (counter >= num_of_cycles))) then 
 						counter <= counter + 1;
 						PWM = '0';
 					

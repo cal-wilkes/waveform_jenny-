@@ -1,0 +1,33 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+
+entity square is
+	port( clk: in std_logic;  -- to adjust frequency, this clk value needs to be adjusted
+			reset: in std_logic;
+			pwm: out std_logic_vector(7 downto 0));
+end square;
+
+architecture Behavioral of square is
+signal counter := integer:= 0;
+
+begin
+
+process(clk,reset)  --- im pretty sure to adjust the amplitude, you just adjust the value of counter (255 being max and 0 being min)
+begin
+	if(reset = '1') then
+		counter <= 0;
+		pwm <= 0;
+		elsif(rising_edge(clk))
+			if(counter = 255) then
+				counter <= 0;
+			else
+			counter <= 255;
+		endif;
+	endif;
+	
+	end process;
+
+pwm <= conv_std_logic_vector(counter,8);
+
+end Behavioral;

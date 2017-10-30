@@ -11,7 +11,23 @@ end square;
 architecture Behavioral of square is
 signal counter := integer:= 0;
 
+component pwm_jenny 
+	generic (num_of_cycles : integer);
+	port (clk : in std_logic;
+		reset : in std_logic;
+		pwm : out std_logic_vector(7 downto 0);
+end component;
+
 begin
+
+square : pwm_jenny
+	generic map (num_of_cycles => 1000)
+	port map( clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+
+
 
 process(clk,reset)  --- im pretty sure to adjust the amplitude, you just adjust the value of counter (255 being max and 0 being min)
 begin

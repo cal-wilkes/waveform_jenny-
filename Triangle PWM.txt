@@ -9,10 +9,24 @@ entity triangle is
 			pwm : out std_logic_vector(7 downto 0));
 end triangle;
 
+component pwm_jenny 
+	generic (num_of_cycles : integer);
+	port (clk : in std_logic;
+		reset : in std_logic;
+		pwm : out std_logic_vector(7 downto 0);
+end component;
+
 architecture Behavioral of triangle is
 
 signal count1, count2 : integer := 0;
 signal direction : std_logic := '0';
+
+triangle: pwm_jenny
+	generic map (num_of_cycles => 1000)
+	port map( clk => clk,
+			reset => reset,
+			pwm => pwm);
+
 
 begin
 

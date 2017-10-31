@@ -2,55 +2,72 @@ library ieee;
 use ieee.std_logic_1164.all;
 use iee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
-entity triangle is
+entity sawtooth is
 	port( clk : in std_logic;  -- to change the frequncy you need to adjust this clock, not fully sure how yet but im guessing we'd have to pass that value into this
 			reset : in std_logic;
 			pwm : out std_logic_vector(7 downto 0));
-end triangle;
+end sawtooth;
 
-architecture Behavioral of triangle is
+component pwm_jenny 
+	generic (num_of_cycles : integer);
+	port (clk : in std_logic;
+		reset : in std_logic;
+		pwm : out std_logic_vector(7 downto 0);
+end component;
 
-signal count1, count2 : integer := 0;
-signal direction : std_logic := '0';
+architecture Behavioral of sawtooth is
+signal counter : integer := 0;
+signal amp : integer := 0;
 
 begin
+
+triangle3.3v : pwm_jenny
+	generic map (num_of_cycles => 1000)
+	port map( clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+
+triangle50mv : pwm_jenny
+	generic map(num_of_cycles => 15)
+	port map (clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+triangle150mv : pwm_jenny
+	generic map(num_of_cycles => 46) -- might be 45 since number is 45.454545
+	port map (clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+triangle2.5v : pwm_jenny
+	generic map(num_of_cycles => 758)
+	port map( clk => clk,
+			reset => reset,
+			pwm => pwm);
 
 process(clk,reset)
-begin
+begin	
 	if(reset = '1') then
-		count1 <= 0;
-		count2 <= 129;
+		counter <= 0;
 		pwm <= 0;
 	elsif(rising_edge(clk)) then	-- the amplitude should be controlled by the value of counter which has 255 as the max value for 8 bits
-		if(count1 = 253) then
-			count1 <= 0;
-				if(direction = '0') then
-					direction <= '1';
-					count2 <= 126;
-				else
-					direction <= '0';
-					count2 <= 129;
-				end if;
-			else 
-				count1 <= count1 + 1;
-			end if;
-			if(direction = '0') then
-				if(count2 = 255) then
-					count2 <= 0;
-				else
-					count2 <= count2 + 1;
-				end if;
-			else
-				if(count2 = 255) then
-					count2 <= 0;
-				else
-					count2 <= count2 - 1;
-				end if;
-			end if;
+		if(counter < num_of_cycles/2) then	
+			counter <= counter + 1;
+			amp <= counter;
+		elsif(counter > num_of_cycles/2) then
+			counter <= counter - 1;
+			amp <= counter;
+		else
+			amp <= num_of_cycles;
 		end if;
+	end if;
+	
 end process;
 
-pwm <= conv_std_logic_vector(count2,8);
+pwm <= conv_std_logic_vector(amp,8);
 
 end Behavioral;
+

@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 
 entity square is
@@ -10,8 +11,42 @@ end square;
 
 architecture Behavioral of square is
 signal counter := integer:= 0;
+signal amp := integer := 0;
+
+component pwm_jenny 
+	generic (num_of_cycles : integer);
+	port (clk : in std_logic;
+		reset : in std_logic;
+		pwm : out std_logic_vector(7 downto 0);
+end component;
 
 begin
+
+square3.3v : pwm_jenny
+	generic map (num_of_cycles => 1000)
+	port map( clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+
+square50mv : pwm_jenny
+	generic map(num_of_cycles => 15)
+	port map (clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+square150mv : pwm_jenny
+	generic map(num_of_cycles => 46) -- might be 45 since number is 45.454545
+	port map (clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+square2.5v : pwm_jenny
+	generic map(num_of_cycles => 758)
+	port map( clk => clk,
+			reset => reset,
+			pwm => pwm);
+
 
 process(clk,reset)  --- im pretty sure to adjust the amplitude, you just adjust the value of counter (255 being max and 0 being min)
 begin
@@ -19,15 +54,15 @@ begin
 		counter <= 0;
 		pwm <= 0;
 		elsif(rising_edge(clk))
-			if(counter = 255) then
-				counter <= 0;
+			if(counter < num_of_cycles/2) then
+				amp <= num_of_cycles;
 			else
-			counter <= 255;
+			amp <= 0;
 		endif;
 	endif;
 	
 	end process;
 
-pwm <= conv_std_logic_vector(counter,8);
+pwm <= conv_std_logic_vector(amp,8);
 
 end Behavioral;

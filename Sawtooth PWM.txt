@@ -18,6 +18,7 @@ end component;
 
 architecture Behavioral of sawtooth is
 signal counter : integer := 0;
+signal amp : integer := 0;
 
 begin
 
@@ -52,16 +53,17 @@ begin
 		counter <= 0;
 		pwm <= 0;
 	elsif(rising_edge(clk)) then	-- the amplitude should be controlled by the value of counter which has 255 as the max value for 8 bits
-		if(counter = 255) then	
-			counter <= 0;
-		else
+		if(counter != num_of_cycles) then	
 			counter <= counter + 1;
+			amp <= counter;
+		else
+			amp <= num_of_cycles;
 		end if;
 	end if;
 	
 end process;
 
-pwm <= conv_std_logic_vector(counter,8);
+pwm <= conv_std_logic_vector(amp,8);
 
 end Behavioral;
 

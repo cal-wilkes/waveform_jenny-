@@ -1,0 +1,366 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity top_level_tb is
+end top_level_tb;
+
+architecture behavior of top_level_tb is
+
+component amplitude_counter is		
+        
+            Port ( 
+                      clk : in  STD_LOGIC;
+                      reset : in  STD_LOGIC;
+                      BTN: in STD_LOGIC_VECTOR(1 downto 0);
+                      max_amp : out STD_LOGIC_VECTOR (10 downto 0)
+                );
+     end component;
+	 
+	  component frequency_module is		
+        
+            Port ( 
+                            CLK: in STD_LOGIC;
+                            BTN: in STD_LOGIC_VECTOR(1 downto 0);
+                            RST: in STD_LOGIC;
+                            NUM_CLOCK_CYCLES: out STD_LOGIC_VECTOR (26 downto 0);         -- number of system clock cyles in given period
+                            FREQ: out STD_LOGIC --;                                          -- will pulse once per selected period 
+                            --CLK_CYCLE_COUNT: out STD_LOGIC_VECTOR (26 downto 0)           -- current count of the number of system clock cycles since last pulse
+                );
+     end component;
+	 
+	component SQUARE_WAVE is
+	port(   clk: in std_logic; 
+	        NUM_CLOCK_CYCLES: in integer;
+	        MAX_AMP: in integer;
+			reset: in std_logic;
+			sqr_wave1: out std_logic);
+end COMPONENT;
+	
+	
+component SIN_WAVE is
+	port(   clk: in std_logic; 
+	        NUM_CLOCK_CYCLES: in integer;
+	       -- MAX_AMP: in integer;
+			reset: in std_logic;
+			sin_wave1: out std_logic);
+end COMPONENT;
+
+component SAW_WAVE is
+	port(   clk: in std_logic; 
+	        NUM_CLOCK_CYCLES: in integer;
+	        MAX_AMP: in integer;
+			reset: in std_logic;
+			SAW_wave1: out std_logic);
+end COMPONENT;
+
+component TRI_WAVE is
+	port(   clk: in std_logic; 
+	        NUM_CLOCK_CYCLES: in integer;
+	        MAX_AMP: in integer;
+			reset: in std_logic;
+			TRI_wave1: out std_logic);
+end COMPONENT;
+
+COMPONENT wave_selector is		
+        
+            Port ( 
+                      clk : in  STD_LOGIC;
+                      reset : in  STD_LOGIC;
+                      switch: in STD_LOGIC_VECTOR (1 downto 0);
+                      SQR_WAVE: in STD_LOGIC;
+                      SAW_WAVE: in STD_LOGIC;
+                      TRI_WAVE: in STD_LOGIC;
+                      SIN_WAVE: in STD_LOGIC;
+                      wave : out  STD_LOGIC
+                );
+                
+    end COMPONENT;
+
+signal clk: std_logic := '0';
+signal reset: std_logic := '0';
+signal buttons: std_logic_vector(3 downto 0) := "0000";
+signal switches: std_logic_vector( 1 downto 0) := "00";
+signal BTN: STD_LOGIC_VECTOR (1 downto 0) := "00";
+signal NUM_CLOCK_CYCLES: integer;
+signal MAX_AMP: integer;
+signal SQR_WAVE: STD_LOGIC := '0';
+signal SAW_WAVE: STD_LOGIC := '0';
+signal TRI_WAVE:  STD_LOGIC := '0';
+signal SIN_WAVE: STD_LOGIC := '0';
+
+	--Outputs
+	
+signal max_amp: STD_LOGIC_VECTOR (10 downto 0);
+signal wave: std_logic := '0';
+signal FREQ: std_logic;
+signal NUM_CLOCK_CYCLES: STD_LOGIC_VECTOR (26 downto 0);
+signal sqr_wave1: STD_LOGIC;
+signal sin_wave1: STD_LOGIC;
+signal saw_wave1: STD_LOGIC;
+signal TRI_wave1: STD_LOGIC;
+
+constant clk_period : time := 10 ns;
+
+begin
+
+
+uut: top_level 
+	port map(
+		clk => clk,
+		reset => reset,
+		buttons => buttons,
+		switches => switches,
+		wave => wave);
+		
+		
+uut: amplitude_counter		
+    Port MAP ( 
+        clk => clk,
+        reset => reset,
+        BTN => BTN,
+        max_amp => max_amp
+        );
+	
+uut: frequency_module		
+            Port MAP ( 
+                      CLK => CLK,
+                      BTN => btn,
+                      RST => RESET,
+                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,        -- number of system clock cyles in given period
+                      FREQ => FREQ --;                                          -- will pulse once per selected period 
+                                       --CLK_CYCLE_COUNT: out STD_LOGIC_VECTOR (26 downto 0)           -- current count of the number of system clock cycles since last pulse
+                           );
+						   
+UUT: SQUARE_WAVE 
+            Port MAP ( 
+                      clk => clk,
+                      reset => reset,
+                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
+                      MAX_AMP => MAX_AMP,
+                      sqr_wave1 => SQR_WAVE1
+                );
+
+UUT: SAW_WAVE 
+            Port MAP ( 
+                      clk => clk,
+                      reset => reset,
+                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
+                      MAX_AMP => MAX_AMP,
+                      saw_wave1 => SAW_WAVE1
+                );
+
+UUT: SIN_WAVE 
+            Port MAP ( 
+                      clk => clk,
+                      reset => reset,
+                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
+                      --MAX_AMP => MAX_AMP,
+                      sin_wave1 => SIN_WAVE1
+                );
+				
+UUT: TRI_WAVE 
+            Port MAP ( 
+                      clk => clk,
+                      reset => reset,
+                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
+                      MAX_AMP => MAX_AMP,
+                      TRI_wave1 => TRI_WAVE1
+                );			
+
+uut: wave_selector		
+           PORT MAP ( 
+                        clk => clk, 
+                        reset => reset,
+                        switch => switch,
+                        SQR_WAVE => SQR_WAVE,
+                        SAW_WAVE => SAW_WAVE,
+                        TRI_WAVE => TRI_WAVE,
+                        SIN_WAVE => SIN_WAVE,
+                        wave => wave
+                  );				
+				
+clk_period : process
+	begin
+		clk <= '0';
+		wait for clk_period/2;
+		clk <= '1';
+		wait for clk_period/2;
+end process; 
+
+SQR_wave_process: process
+     begin
+     
+     SQR_WAVE <= '0';
+     wait for clk_period;
+     SQR_WAVE <= '1';
+     wait for clk_period;
+     
+ end process;  
+ 
+  saw_wave_process: process
+     begin
+     
+     SAW_WAVE <= '0';
+     wait for clk_period + clk_period;
+     SAW_WAVE <= '1';
+     wait for clk_period;
+     
+ end process;  
+ 
+  TRI_wave_process: process
+     begin
+     
+     TRI_WAVE <= '0';
+     wait for clk_period + clk_period + clk_period;
+     TRI_WAVE <= '1';
+     wait for clk_period;
+     
+ end process;  
+ 
+  SIN_wave_process: process
+     begin
+     
+     SIN_WAVE <= '0';
+     wait for clk_period + clk_period + clk_period + clk_period + clk_period;
+     SIN_WAVE <= '1';
+     wait for clk_period;
+     
+ end process; 
+
+stim_proc: process
+	begin
+		reset <= '0';
+      wait for 100ns;	
+		reset <= '1';
+      wait for 100ns;
+		reset <= '0';
+      wait for 100ns;    
+         buttons(0) <= '1';
+      wait for 10ns;
+         buttons(0) <= '0';
+      wait for 100ns;    
+         buttons(0) <= '1';
+      wait for 10ns;
+         buttons(0) <= '0';
+      wait for 100ns;    
+         buttons(0) <= '1';
+      wait for 10 ns;
+         buttons(0) <= '0';
+      wait for 100ns;    
+         buttons(0) <= '1';
+      wait for 10 ns;
+        buttons(0) <= '0';
+      wait for 100 ns;
+      
+      
+          buttons(1) <= '1';
+      wait for 10 ns;  
+          buttons(1) <= '0';
+      wait for 100 ns;   
+          buttons(1) <= '1';
+      wait for 10 ns;  
+          buttons(1) <= '0';
+      wait for 100 ns;     
+          buttons(1) <= '1';
+      wait for 10 ns;  
+          buttons(1) <= '0';
+      wait for 100 ns;  
+          buttons(1) <= '1';
+      wait for 10 ns;  
+          buttons(1) <= '0';
+      wait for 100 ns;  
+          buttons(1) <= '1';
+      wait for 10 ns;  
+          buttons(1) <= '0';
+      wait for 100 ns; 
+
+		buttons(2) <= '1';
+      wait for 10 ns;  
+          buttons(2) <= '0';
+      wait for 100 ns;   
+          buttons(2) <= '1';
+      wait for 10 ns;  
+          buttons(2) <= '0';
+      wait for 100 ns;     
+          buttons(2) <= '1';
+      wait for 10 ns;  
+          buttons(2) <= '0';
+      wait for 100 ns;  
+          buttons(2) <= '1';
+      wait for 10 ns;  
+          buttons(2) <= '0';
+      wait for 100 ns;  
+          buttons(2) <= '1';
+      wait for 10 ns;  
+          buttons(2) <= '0';
+      wait for 100 ns; 
+
+		buttons(3) <= '1';
+      wait for 10 ns;  
+          buttons(3) <= '0';
+      wait for 100 ns;   
+          buttons(3) <= '1';
+      wait for 10 ns;  
+          buttons(3) <= '0';
+      wait for 100 ns;     
+          buttons(3) <= '1';
+      wait for 10 ns;  
+          buttons(3) <= '0';
+      wait for 100 ns;  
+          buttons(3) <= '1';
+      wait for 10 ns;  
+          buttons(3) <= '0';
+      wait for 100 ns;  
+          buttons(3) <= '1';
+      wait for 10 ns;  
+          buttons(3) <= '0';
+      wait for 100 ns; 	  
+      
+	  
+		switches(0) <= '1';
+      wait for 10 ns;  
+          switches(0) <= '0';
+      wait for 100 ns;   
+          switches(0) <= '1';
+      wait for 10 ns;  
+          switches(0) <= '0';
+      wait for 100 ns;     
+          switches(0) <= '1';
+      wait for 10 ns;  
+          switches(0) <= '0';
+      wait for 100 ns;  
+          switches(0) <= '1';
+      wait for 10 ns;  
+          switches(0) <= '0';
+      wait for 100 ns;  
+          switches(0) <= '1';
+      wait for 10 ns;  
+          switches(0) <= '0';
+      wait for 100 ns; 
+	  
+	  switches(1) <= '1';
+      wait for 10 ns;  
+          switches(1) <= '0';
+      wait for 100 ns;   
+          switches(1) <= '1';
+      wait for 10 ns;  
+          switches(1) <= '0';
+      wait for 100 ns;     
+          switches(1) <= '1';
+      wait for 10 ns;  
+          switches(1) <= '0';
+      wait for 100 ns;  
+          switches(1) <= '1';
+      wait for 10 ns;  
+          switches(1) <= '0';
+      wait for 100 ns;  
+          switches(1) <= '1';
+      wait for 10 ns;  
+          switches(1) <= '0';
+      wait for 100 ns; 
+	  
+	  
+      wait;
+   end process;
+   
+   end;

@@ -9,15 +9,15 @@ ENTITY multi_debounce IS
   PORT(
     clk     : IN  STD_LOGIC;  --input clock
     buttons  : IN  STD_LOGIC_VECTOR (3 downto 0);  --input signal to be debounced
-	swtiches : in std_logic_vector (1 downto 0);
-	d_buttons : in std_logic_vector (3 downto 0);
-	d_swtiches : in std_logic_vector (1 downto 0)
+	switches : in std_logic_vector (1 downto 0);
+	d_buttons : out std_logic_vector (3 downto 0);
+	d_switches : out std_logic_vector (1 downto 0)
 	);
 END multi_debounce;
 
 ARCHITECTURE Behavioral OF multi_debounce IS
   
-  component debouncer is
+  component debounce is
 	port( clk:in std_logic;
 			button: in std_logic;
 			result: out std_logic
@@ -26,35 +26,35 @@ ARCHITECTURE Behavioral OF multi_debounce IS
 	 
   BEGIN
 
-	button_0: debouncer
+	button_0: debounce
 		port map (clk => clk,
 					button => buttons(0),
 					result => d_buttons(0)
 					);
-	button_1: debouncer
+	button_1: debounce
 		port map (clk => clk,
 					button => buttons(1),
 					result => d_buttons(1)
 					);				
-	button_2: debouncer
+	button_2: debounce
 		port map (clk => clk,
 					button => buttons(2),
 					result => d_buttons(2)
 					);
 					
-	button_3: debouncer
+	button_3: debounce
 		port map (clk => clk,
 					button => buttons(3),
 					result => d_buttons(3)
 					);
 					
-	swtich_0: debouncer
+	swtich_0: debounce
 		port map (clk => clk,
 					button => switches(0),
 					result => d_switches(0)
 					);
 					
-	swtich_1: debouncer
+	swtich_1: debounce
 		port map (clk => clk,
 					button => switches(1),
 					result => d_switches(1)

@@ -9,7 +9,7 @@ entity amplitude_counter is
 				  clk : in  STD_LOGIC;
 				  reset : in  STD_LOGIC;
 				  BTN: in STD_LOGIC_VECTOR(1 downto 0);
-				  max_amp : out STD_LOGIC_VECTOR (10 downto 0)
+				  max_amp : out integer
 			);
 			
 end amplitude_counter;
@@ -26,7 +26,7 @@ CHANGE_STATE: process(CLK, reset)
 begin
         if (reset = '1') then
                 STATE <= S0;
-				max_amp <= "01111101000"; 
+				max_amp <= 1000; 
         
         elsif( rising_edge(clk)) then
         
@@ -34,7 +34,7 @@ begin
 		case STATE is
 		
 				when S0 => 
-							max_amp <= "01111101000"; 
+							max_amp <= 1000; 
 							if (BTN(0) = '1') then 
 								STATE <= S1;
 							elsif(BTN(1) = '1') then 
@@ -44,7 +44,7 @@ begin
 							end if;
 							
 				when S1 => 
-							max_amp <= "00111110100"; 
+							max_amp <= 500; 
 							if (BTN(0) = '1') then 
 								STATE <= S2;
 							elsif(BTN(1) = '1') then 
@@ -54,7 +54,7 @@ begin
 							end if;
 		
 				when S2 => 
-							max_amp <= "00010010110"; 
+							max_amp <= 100; 
 							if (BTN(0) = '1') then 
 								STATE <= S3;
 							elsif(BTN(1) = '1') then 
@@ -64,7 +64,7 @@ begin
 							end if;
 							
 				when S3 => 
-							max_amp <= "00000001111"; 
+							max_amp <= 15; 
 							if (BTN(0) = '1') then 
 								STATE <= S0;
 							elsif(BTN(1) = '1') then 

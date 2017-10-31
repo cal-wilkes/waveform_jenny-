@@ -8,7 +8,7 @@ entity FREQUENCY_MODULE is
 				CLK: in STD_LOGIC;
 				BTN: in STD_LOGIC_VECTOR(1 downto 0);
 				RST: in STD_LOGIC;
-				NUM_CLOCK_CYCLES: out STD_LOGIC_VECTOR (26 downto 0);         -- number of system clock cyles in given period
+				NUM_CLOCK_CYCLES: out integer;         -- number of system clock cyles in given period
 				FREQ: out STD_LOGIC --;                                          -- will pulse once per selected period 
 				--CLK_CYCLE_COUNT: out STD_LOGIC_VECTOR (26 downto 0)           -- current count of the number of system clock cycles since last pulse
 			  );
@@ -30,71 +30,71 @@ type STATE_TYPE is (S0, S1, S2, S3);
 
 signal STATE: STATE_TYPE;
 
-signal kilohertz, hundredhertz, tenhertz, onehertz: STD_LOGIC;
-signal kilohertzval, hundredhertzval, tenhertzval, onehertzval: STD_LOGIC_VECTOR(26 downto 0);
+--signal kilohertz, hundredhertz, tenhertz, onehertz: STD_LOGIC;
+--signal kilohertzval, hundredhertzval, tenhertzval, onehertzval: STD_LOGIC_VECTOR(26 downto 0);
 
 
 begin
 
 
-kiloHzClock: downcounter
-generic map(
-				period => (10-1),  --100000 
-				WIDTH => 27
-			)
-port map (
-				clk => clk,
-				reset => RST,
-				enable => '1',
-				zero => kilohertz,
-				value => kilohertzval			
-);
+--kiloHzClock: downcounter
+--generic map(
+	--			period => (100000-1),  --100000 -- before running simulation make this 10 and adjust the other values
+		--		WIDTH => 27
+	--		)
+--port map (
+	--			clk => clk,
+	--			reset => RST,
+	--			enable => '1',
+	--			zero => kilohertz,
+	--			value => kilohertzval			
+--);
 
-hundredHzClock: downcounter
-generic map(
-				period => (100-1), --1000000	
-				WIDTH => 27
-			)
-port map (
-				clk => clk,
-				reset => RST,
-				enable => '1',
-				zero => hundredhertz,
-				value => hundredhertzval			
-);
+--hundredHzClock: downcounter
+--generic map(
+--				period => (1000000-1), --1000000	
+--				WIDTH => 27
+	--		)
+--port map (
+	--			clk => clk,
+	--			reset => RST,
+	--			enable => '1',
+	--			zero => hundredhertz,
+	--			value => hundredhertzval			
+--);
 
-tenHzClock: downcounter
-generic map(
-				period => (1000-1),	--10000000
-				WIDTH => 27
-			)
-port map (
-				clk => clk,
-				reset => RST,
-				enable => hundredhertz,
-				zero => tenhertz,
-				value => tenhertzval			
-);
+--tenHzClock: downcounter
+--generic map(
+--				period => (10000000-1),	--10000000
+--				WIDTH => 27
+--			)
+--port map (
+--				clk => clk,
+--				reset => RST,
+--				enable => hundredhertz,
+--				zero => tenhertz,
+--				value => tenhertzval			
+--);
 
-oneHzClock: downcounter
-generic map(
-				period => (10000-1),	--100000000
-				WIDTH => 27
-			)
-port map (
-				clk => clk,
-				reset => RST,
-				enable => tenhertz,
-				zero => onehertz,
-				value => onehertzval			
-);
+--oneHzClock: downcounter
+--generic map(
+--				period => (100000000-1),	--100000000
+--				WIDTH => 27
+--			)
+--port map (
+--				clk => clk,
+--				reset => RST,
+--				enable => tenhertz,
+--				zero => onehertz,
+--				value => onehertzval			
+--);
 
 CHANGE_STATE: process(CLK, RST) begin
 
         if (RST = '1') then
                 STATE <= S0;
-                FREQ <= onehertz;
-                NUM_CLOCK_CYCLES <= "101111101011110000100000000";
+                --FREQ <= onehertz;
+                NUM_CLOCK_CYCLES <= 100000000;
                -- CLK_CYCLE_COUNT <= onehertzval;
         
         elsif( rising_edge(clk)) then
@@ -103,8 +103,8 @@ CHANGE_STATE: process(CLK, RST) begin
 		case STATE is
 		
 				when S0 => 
-							FREQ <= onehertz;
-							NUM_CLOCK_CYCLES <= "101111101011110000100000000";
+							--FREQ <= onehertz;
+							NUM_CLOCK_CYCLES <= 100000000;
 						--	CLK_CYCLE_COUNT <= onehertzval;
 							if (BTN(0) = '1') then 
 								STATE <= S1;
@@ -115,8 +115,8 @@ CHANGE_STATE: process(CLK, RST) begin
 							end if;
 							
 				when S1 => 
-							FREQ <= tenhertz;
-							NUM_CLOCK_CYCLES <= "000100110001001011010000000";
+							--FREQ <= tenhertz;
+							NUM_CLOCK_CYCLES <= 10000000;
 						--	CLK_CYCLE_COUNT <= tenhertzval;
 							if (BTN(0) = '1') then 
 								STATE <= S2;
@@ -127,8 +127,8 @@ CHANGE_STATE: process(CLK, RST) begin
 							end if;
 		
 				when S2 => 
-							FREQ <= hundredhertz;
-							NUM_CLOCK_CYCLES <= "000000011110100001001000000";
+							--FREQ <= hundredhertz;
+							NUM_CLOCK_CYCLES <= 1000000;
 						--	CLK_CYCLE_COUNT <= hundredhertzval;
 							if (BTN(0) = '1') then 
 								STATE <= S3;
@@ -139,8 +139,8 @@ CHANGE_STATE: process(CLK, RST) begin
 							end if;
 							
 				when S3 => 
-							FREQ <= kilohertz;
-							NUM_CLOCK_CYCLES <= "000000000011000011010100000";
+							--FREQ <= kilohertz;
+							NUM_CLOCK_CYCLES <= 100000;
 						--	CLK_CYCLE_COUNT <= kilohertzval;
 							if (BTN(0) = '1') then 
 								STATE <= S0;

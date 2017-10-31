@@ -3,11 +3,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity PWM_JENNY is
-	Generic ( num_of_cycles: integer:= 4
-			);				
-	
-		Port ( 
+entity PWM_JENNY is			
+		Port (    
+		          num_of_cycles: in integer;
 				  clk : in  STD_LOGIC;
 				  reset : in  STD_LOGIC;
 				  PWM : out  STD_LOGIC

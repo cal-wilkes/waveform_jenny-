@@ -21,8 +21,27 @@ architecture Behavioral of triangle is
 signal count1, count2 : integer := 0;
 signal direction : std_logic := '0';
 
-triangle: pwm_jenny
+triangle3.3v : pwm_jenny
 	generic map (num_of_cycles => 1000)
+	port map( clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+
+triangle50mv : pwm_jenny
+	generic map(num_of_cycles => 15)
+	port map (clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+triangle150mv : pwm_jenny
+	generic map(num_of_cycles => 46) -- might be 45 since number is 45.454545
+	port map (clk => clk,
+			reset => reset,
+			pwm => pwm);
+
+triangle2.5v : pwm_jenny
+	generic map(num_of_cycles => 758)
 	port map( clk => clk,
 			reset => reset,
 			pwm => pwm);

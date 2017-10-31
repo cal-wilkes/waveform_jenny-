@@ -25,8 +25,15 @@ end component;
 
 
 signal amp: integer :=0;
-signal counter, counter_2: integer;
+signal counter, internal_counter: integer;
 
+signal period: integer;
+
+type mem is array (0 to 99) of integer;
+
+signal sine: mem := (500, 532, 563, 595, 626, 656, 686, 715, 743, 770, 796, 821, 845, 867, 888, 907, 924, 940, 954, 967, 977, 986, 992, 996, 1000, 1000, 998, 994, 989, 981, 972, 961, 948, 933, 916, 898, 878, 856, 833, 809, 784, 757, 729, 700, 671, 
+                         640, 610, 579, 547, 515, 484, 453, 421, 390, 360, 329, 300, 271, 243, 217, 191, 167, 144, 123, 102, 84, 67, 52, 39, 28, 19, 11, 6, 2, 0, 0, 4, 8, 15, 23, 33, 45, 60, 76, 93, 112, 133, 155, 179, 204, 230, 257, 286, 315, 344, 
+                         375, 405, 437, 468, 500);
 
 
 begin
@@ -41,34 +48,69 @@ tri_jenny: PWM_JENNY
         );
         
         
-process (CLK)
-
-            
- begin 
+        
+        
+        
+process(CLK)
+      begin 
 
                 if(rising_edge(CLK)) then 
                 
-                        if(counter < (NUM_CLOCK_CYCLES/2)) then 
-                             amp <= amp + (max_amp/(NUM_CLOCK_CYCLES/2)); --- NEED TO CHANGE LOGIC FROM RISING LINEAR TO POSITIVE SINE
-                             counter <= counter+1;
-                        
-                        elsif(counter_2 < (NUM_CLOCK_CYCLES/2)) then 
-                              amp <= amp - (max_amp/(NUM_CLOCK_CYCLES/2));  ----- NEED TO CHANGE LOGIC FROM RISING LINEAR TO POSITIVE SINE
-                              counter_2 <= counter+1;
-                        
-                       else
+                        if( num_clock_cycles = 100000) then 
+                          if(counter < 99) then 
+                              if(internal_counter < 1000) then 
+                                    internal_counter <= internal_counter +1;
+                                   amp <= sine(counter);
+                               else 
+                                  internal_counter <= 0;
+                              end if;
+                          else 
                             counter <= 0;
-                            counter_2 <= 0;
-                             
-                       end if;
-       
+                          end if;
+                          
+                        
+                        
+                        elsif( num_clock_cycles = 1000000) then 
+                               if(counter < 99) then 
+                                        if(internal_counter < 10000) then 
+                                               internal_counter <= internal_counter +1;
+                                            amp <= sine(counter);
+                                        else 
+                                            internal_counter <= 0;
+                                        end if;
+                               else 
+                                    counter <= 0;
+                              end if;      
+                              
+                        
+                        elsif( num_clock_cycles = 10000000) then 
+
+                               if(counter < 99) then 
+                                        if(internal_counter < 100000) then 
+                                               internal_counter <= internal_counter +1;
+                                             amp <= sine(counter);
+                                        else 
+                                            internal_counter <= 0;
+                                        end if;
+                               else 
+                                    counter <= 0;
+                              end if;
+
+
+                        elsif( num_clock_cycles = 100000000) then 
+                         if(counter < 99) then 
+                                if(internal_counter < 1000000) then 
+                                            internal_counter <= internal_counter +1;
+                                            amp <= sine(counter);
+                                else 
+                                  internal_counter <= 0;
+                                end if;
+                          else 
+                            counter <= 0;
+                          end if;                                      
                 end if;
-                
-end process;                    
-
-
-
-
+          end if;
+ end process;               
 
 
 

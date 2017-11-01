@@ -36,7 +36,6 @@ component FREQuency_MODULE is
 				RST: in STD_LOGIC;
 				NUM_CLOCK_CYCLES: out integer;         -- number of system clock cyles in given period
 				FREQ: out STD_LOGIC --;                                          -- will pulse once per selected period 
-			--	CLK_CYCLE_COUNT: out STD_LOGIC_VECTOR (26 downto 0)           -- current count of the number of system clock cycles since last pulse
 			  );
 end component;
 
@@ -53,16 +52,12 @@ end component;
 
 
 
--- ADD COMPONENT SQUARE_WAVE
-
 component square_wave is		
 	
 		Port ( 
 				  clk : in  STD_LOGIC;
 				  reset : in  STD_LOGIC;
 				  NUM_CLOCK_CYCLES: in integer;       
-				--  FREQ: in STD_LOGIC;                                          
-				--  CLK_CYCLE_COUNT: in integer;
 				  max_amp: in integer;
 				  SQR_WAVE1: out STD_LOGIC
 			);
@@ -70,19 +65,12 @@ component square_wave is
 end component;
 
 
-
-
-
--- ADD COMPONENT SAW_WAVE
-
 component saw_wave is		
 	
 		Port ( 
 				  clk : in  STD_LOGIC;
 				  reset : in  STD_LOGIC;
 				  NUM_CLOCK_CYCLES: in integer;       
-				--  FREQ: in STD_LOGIC;                                          
-				--  CLK_CYCLE_COUNT: in STD_LOGIC_VECTOR (26 downto 0);
 				  max_amp: in integer;
 				  SAW_WAVE1: out STD_LOGIC
 			);
@@ -90,18 +78,12 @@ component saw_wave is
 end component;
 
 
-
-
--- ADD COMPONENT TRI_WAVE
-
 component tri_wave is		
 	
 		Port ( 
 				  clk : in  STD_LOGIC;
 				  reset : in  STD_LOGIC;
 				  NUM_CLOCK_CYCLES: in integer;       
-				  --FREQ: in STD_LOGIC;                                          
-				  --CLK_CYCLE_COUNT: in STD_LOGIC_VECTOR (26 downto 0);
 				  max_amp : in integer;
 				  TRI_WAVE1: out STD_LOGIC
 			);
@@ -109,7 +91,6 @@ component tri_wave is
 end component;
 
 
--- ADD COMPONENT SIN_WAVE
 
 component sin_wave is		
 	
@@ -117,8 +98,6 @@ component sin_wave is
 				  clk : in  STD_LOGIC;
 				  reset : in  STD_LOGIC;
 				  NUM_CLOCK_CYCLES: in integer;       
-				--  FREQ: in STD_LOGIC;                                          
-				 -- CLK_CYCLE_COUNT: in STD_LOGIC_VECTOR (26 downto 0);
 				  max_amp : in integer;
 				  SIN_WAVE1: out STD_LOGIC
 			);
@@ -155,8 +134,6 @@ signal sin_wave1: std_logic;
 signal freq: std_logic;
 
 signal  max_amp : integer;
-
---signal CLK_CYCLE_COUNT: STD_LOGIC_VECTOR (26 downto 0);
 signal NUM_CLOCK_CYCLES: integer;
 
 
@@ -185,7 +162,6 @@ frequency: frequency_module
 				RST => reset,
 				NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
 				FREQ => freq --,
-				--CLK_CYCLE_COUNT => clk_cycle_count 
 	);
 
 
@@ -206,8 +182,6 @@ sqr_w: square_wave
 				  clk => CLK,
 				  reset => reset,
 				  NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,      
-				  --FREQ => freq,                                         
-				 -- CLK_CYCLE_COUNT => CLK_CYCLE_COUNT,
 				  max_amp => max_amp,
 				  sqr_WAVE1 => sqr_wave1
 			);
@@ -222,8 +196,6 @@ saw_w: saw_wave
 				  clk => CLK,
 				  reset => reset,
 				  NUM_CLOCK_CYCLES => num_clock_cycles,      
-				--  FREQ => freq,                                         
-				 -- CLK_CYCLE_COUNT => CLK_CYCLE_COUNT,
 				  max_amp => max_amp,
 				  saw_WAVE1 => saw_wave1
 			);
@@ -237,8 +209,6 @@ tri_W: tri_wave
 				  clk => CLK,
 				  reset => reset,
 				  NUM_CLOCK_CYCLES => num_clock_cycles,      
-				  --FREQ => freq,                                         
-				 -- CLK_CYCLE_COUNT => CLK_CYCLE_COUNT,
 				  max_amp => max_amp,
 				  tri_WAVE1 => tri_wave1
 			);
@@ -251,8 +221,6 @@ SIN_W: sin_wave
 				  clk => CLK,
 				  reset => reset,
 				  NUM_CLOCK_CYCLES => num_clock_cycles,      
-				  --FREQ => freq,                                         
-				  --CLK_CYCLE_COUNT => CLK_CYCLE_COUNT,
 				  max_amp => max_amp,
 				  SIN_WAVE1 => sin_wave1
 			);

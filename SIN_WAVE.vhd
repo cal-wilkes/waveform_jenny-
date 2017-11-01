@@ -67,39 +67,9 @@ process(CLK)
                           else 
                             counter <= 0;
                           end if;
-                          
-                        
-                        
-                        elsif( num_clock_cycles = 1000000) then 
-                               if(counter < 99) then 
-                                        if(internal_counter < 10000) then 
-                                               internal_counter <= internal_counter +1;
-                                            amp <= sine(counter);
-                                        else 
-                                            internal_counter <= 0;
-                                            counter <= counter+1;
-                                        end if;
-                               else 
-                                    counter <= 0;
-                              end if;      
-                              
-                        
-                        elsif( num_clock_cycles = 10000000) then 
-
-                               if(counter < 99) then 
-                                        if(internal_counter < 100000) then 
-                                               internal_counter <= internal_counter +1;
-                                             amp <= sine(counter);
-                                        else 
-                                            internal_counter <= 0;
-                                             counter <= counter+1;
-                                        end if;
-                               else 
-                                    counter <= 0;
-                              end if;
-
-
-                        elsif( num_clock_cycles = 100000000) then 
+                                                                    
+                                                                    
+                       elsif( num_clock_cycles = 100000000) then 
                          if(counter < 99) then 
                                 if(internal_counter < 1000000) then 
                                             internal_counter <= internal_counter +1;

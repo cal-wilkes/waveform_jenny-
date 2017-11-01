@@ -16,7 +16,7 @@ end amplitude_counter;
 
 architecture Behavioural of amplitude_counter is 
 
-type STATE_TYPE is (S0, S1, S2, S3);
+type STATE_TYPE is (S0, S1);
 
 signal STATE: STATE_TYPE;
 
@@ -38,39 +38,20 @@ begin
 							if (BTN(0) = '1') then 
 								STATE <= S1;
 							elsif(BTN(1) = '1') then 
-								STATE <= S3;
+								STATE <= S1;
 							else
 								STATE <= S0;
 							end if;
+							
 							
 				when S1 => 
-							max_amp <= 500; 
-							if (BTN(0) = '1') then 
-								STATE <= S2;
-							elsif(BTN(1) = '1') then 
-								STATE <= S0;
-							else
-								STATE <= S1;
-							end if;
-		
-				when S2 => 
-							max_amp <= 100; 
-							if (BTN(0) = '1') then 
-								STATE <= S3;
-							elsif(BTN(1) = '1') then 
-								STATE <= S1;
-							else
-								STATE <= S2;
-							end if;
-							
-				when S3 => 
 							max_amp <= 15; 
 							if (BTN(0) = '1') then 
 								STATE <= S0;
 							elsif(BTN(1) = '1') then 
-								STATE <= S2;
+								STATE <= S0;
 							else
-								STATE <= S3;
+								STATE <= S1;
 							end if;
 							
 		              end case;

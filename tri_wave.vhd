@@ -51,60 +51,27 @@ begin
                 
                   if( NUM_CLOCK_CYCLES = 100000000) then 
                      max_count <= 200000;
-                  elsif( NUM_CLOCK_CYCLES = 10000000) then 
-                    max_count <= 20000;
-                  elsif( NUM_CLOCK_CYCLES = 1000000) then 
-                    max_count <= 2000;
+        
                   elsif( NUM_CLOCK_CYCLES = 100000) then 
                     max_count <= 200;
+                  
                   end if;
-                                         
-                  elsif(MAX_AMP = 500) then
-                                          
-                    if( NUM_CLOCK_CYCLES = 100000000) then 
-                      max_count <= 4000000;
-                    elsif( NUM_CLOCK_CYCLES = 10000000) then 
-                                                  max_count <= 40000;
-                                            elsif( NUM_CLOCK_CYCLES = 1000000) then 
-                                                   max_count <= 4000;
-                                            elsif( NUM_CLOCK_CYCLES = 100000) then 
-                                                   max_count <= 400;
-                                            end if;
-                                            
-                                       elsif(MAX_AMP = 100) then
-                                                                      
-                                           if( NUM_CLOCK_CYCLES = 100000000) then 
-                                                  max_count <= 2000000;
-                                           elsif( NUM_CLOCK_CYCLES = 10000000) then 
-                                                  max_count <= 200000;
-                                           elsif( NUM_CLOCK_CYCLES = 1000000) then 
-                                                  max_count <= 20000;
-                                           elsif( NUM_CLOCK_CYCLES = 100000) then 
-                                                  max_count <= 2000;
-                                           end if;
+    
                                            
                                            
-                                     elsif(MAX_AMP = 15) then
+      elsif(MAX_AMP = 15) then
                                                                                                                              
-                                           if( NUM_CLOCK_CYCLES = 100000000) then 
-                                                  max_count <= 14000000;
-                                           elsif( NUM_CLOCK_CYCLES = 10000000) then 
-                                                  max_count <= 1400000;
-                                           elsif( NUM_CLOCK_CYCLES = 1000000) then 
-                                                  max_count <= 140000;
-                                           elsif( NUM_CLOCK_CYCLES = 100000) then 
-                                                  max_count <= 14000;
-                                          end if;                            
+                  if( NUM_CLOCK_CYCLES = 100000000) then 
+                      max_count <= 14000000;
+                  
+                  elsif( NUM_CLOCK_CYCLES = 100000) then 
+                      max_count <= 14000;
+                  
+                  end if;                            
                                   
-                                  end if;
+        end if;
                                   
 end process;
-
-
-
-
-
-
 
 
 process (CLK)

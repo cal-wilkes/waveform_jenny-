@@ -54,7 +54,7 @@ process (CLK)
                         
                         elsif(counter_2 < (NUM_CLOCK_CYCLES/2)) then 
                               amp <= amp - (max_amp/(NUM_CLOCK_CYCLES/2));
-                              counter_2 <= counter+1;
+                              counter_2 <= counter_2+1;
                         
                        else
                             counter <= 0;

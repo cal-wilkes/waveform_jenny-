@@ -6,6 +6,14 @@ end top_level_tb;
 
 architecture behavior of top_level_tb is
 
+component debounce is
+	port( clk: in std_logic;
+		reset: in std_logic;
+		buttons: in std_logic_vector(3 down to 0);
+		switches: in std_logic_vector(1 downto 0);
+		d_buttons: out std_logic_vector(3 downto 0);
+		d_switches: out std_logic_vector(1 downto 0));
+
 component amplitude_counter is		
         
             Port ( 
@@ -98,6 +106,8 @@ signal sqr_wave1: STD_LOGIC;
 signal sin_wave1: STD_LOGIC;
 signal saw_wave1: STD_LOGIC;
 signal TRI_wave1: STD_LOGIC;
+signal d_buttons:std_logic_vector(3 downto 0);
+signal d_switches: std_logic_vector(1 downto 0);
 
 constant clk_period : time := 10 ns;
 
@@ -113,18 +123,29 @@ uut: top_level
 		wave => wave);
 		
 		
+uut: debounce
+	port map(
+		clk => clk,
+		reset => reset,
+		buttons => buttons,
+		switches => switches,
+		d_buttons => d_buttons,
+		d_switches => d_switches);
+
 uut: amplitude_counter		
     Port MAP ( 
         clk => clk,
         reset => reset,
-        BTN => BTN,
+        BTN(0) => d_buttons(0),
+	BTN(1) => d_buttons(1),
         max_amp_out => max_amp_out
         );
 	
 uut: frequency_module		
             Port MAP ( 
                       CLK => CLK,
-                      BTN => btn,
+                      BTN(0) => d_buttons(3),
+		      BTN(1) => d_buttons(4),
                       RST => RESET,
                       NUM_CLOCK_CYCLES_OUT => NUM_CLOCK_CYCLES_OUT,        -- number of system clock cyles in given period
                       FREQ => FREQ --;                                          -- will pulse once per selected period 

@@ -25,7 +25,8 @@ end component;
 
 
 signal amp: integer :=0;
-signal counter: integer;
+signal counter, internal_counter, max_count: integer;
+signal step: integer;
 
 
 
@@ -41,19 +42,95 @@ saw_jenny: PWM_JENNY
         );
         
         
+        
+        
+ process(MAX_AMP, NUM_CLOCK_CYCLES)
+ begin       
+             if(MAX_AMP = 1000) then
+    
+                             if( NUM_CLOCK_CYCLES = 100000000) then 
+                                       max_count <= 1000000;
+                             elsif( NUM_CLOCK_CYCLES = 10000000) then 
+                                       max_count <= 100000;
+                             elsif( NUM_CLOCK_CYCLES = 1000000) then 
+                                       max_count <= 10000;
+                             elsif( NUM_CLOCK_CYCLES = 100000) then 
+                                       max_count <= 1000;
+                             end if;
+                             
+                           elsif(MAX_AMP = 500) then
+                              
+                                if( NUM_CLOCK_CYCLES = 100000000) then 
+                                       max_count <= 200000;
+                                elsif( NUM_CLOCK_CYCLES = 10000000) then 
+                                       max_count <= 20000;
+                                elsif( NUM_CLOCK_CYCLES = 1000000) then 
+                                       max_count <= 2000;
+                                elsif( NUM_CLOCK_CYCLES = 100000) then 
+                                       max_count <= 200;
+                                end if;
+                                
+                           elsif(MAX_AMP = 100) then
+                                                          
+                               if( NUM_CLOCK_CYCLES = 100000000) then 
+                                      max_count <= 1000000;
+                               elsif( NUM_CLOCK_CYCLES = 10000000) then 
+                                      max_count <= 100000;
+                               elsif( NUM_CLOCK_CYCLES = 1000000) then 
+                                      max_count <= 10000;
+                               elsif( NUM_CLOCK_CYCLES = 100000) then 
+                                      max_count <= 1000;
+                               end if;
+                               
+                               
+                         elsif(MAX_AMP = 15) then
+                                                                                                                 
+                               if( NUM_CLOCK_CYCLES = 100000000) then 
+                                      max_count <= 7000000;
+                               elsif( NUM_CLOCK_CYCLES = 10000000) then 
+                                      max_count <= 700000;
+                               elsif( NUM_CLOCK_CYCLES = 1000000) then 
+                                      max_count <= 70000;
+                               elsif( NUM_CLOCK_CYCLES = 100000) then 
+                                      max_count <= 7000;
+                              end if;                            
+                      
+                      end if;
+        
+        
+        
+        
+        
+end process; 
+        
+        
+        
+        
+        
+        
+        
+        
+        
 process (CLK)
 
 begin 
 
                 if(rising_edge(CLK)) then 
+                        
                 
-                        if(counter < NUM_CLOCK_CYCLES) then 
-                             amp <= amp + (max_amp/NUM_CLOCK_CYCLES);
+                        if((counter < NUM_CLOCK_CYCLES) and (internal_counter = max_count)) then 
+                             amp <= amp + 1;
                              counter <= counter+1;
+                             internal_counter <= 0;
+                       
+                        elsif(counter < NUM_CLOCK_CYCLES) then                    
+                             counter <= counter+1;
+                             internal_counter <= internal_counter +1;
                        
                        else
                             amp <= 0;
                             counter <= 0;
+                            internal_counter <= 0;
                              
                        end if;
        

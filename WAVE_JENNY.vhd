@@ -7,8 +7,8 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity WAVE_JENNY is		
 	Port(
 	         clk: in std_logic;
-			Buttons: in std_logic_vector(3 downto 0);
-			Switches: in std_logic_vector(1 downto 0);
+			DButtons: in std_logic_vector(3 downto 0);
+			DSwitches: in std_logic_vector(1 downto 0);
 			Reset: in std_logic;
 			wave: out std_logic		
 	);
@@ -16,6 +16,18 @@ entity WAVE_JENNY is
 end WAVE_JENNY;
 
 ARCHITECTURE Behavioural OF WAVE_JENNY is
+
+
+component multi_debounce IS
+  PORT(
+    clk     : IN  STD_LOGIC;  --input clock
+    buttons  : IN  STD_LOGIC_VECTOR (3 downto 0);  --input signal to be debounced
+	switches : in std_logic_vector (1 downto 0);
+	d_buttons : out std_logic_vector (3 downto 0);
+	d_switches : out std_logic_vector (1 downto 0)
+	);
+END component;
+
 
 component FREQuency_MODULE is
 		Port (
@@ -148,9 +160,21 @@ signal  max_amp : integer;
 signal NUM_CLOCK_CYCLES: integer;
 
 
+signal buttons: std_logic_vector(3 downto 0);
+signal switches: std_logic_vector(1 downto 0);
 
 
 begin
+
+dbnc: multi_debounce
+  PORT MAP(
+                clk => clk,
+                buttons  => DButtons,
+	            switches => DSwitches,
+	            d_buttons => Buttons,
+	            d_switches => Switches
+	);
+
 
 
 

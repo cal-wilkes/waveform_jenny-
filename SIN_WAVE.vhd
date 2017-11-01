@@ -77,6 +77,7 @@ process(CLK)
                                             amp <= sine(counter);
                                         else 
                                             internal_counter <= 0;
+                                            counter <= counter+1;
                                         end if;
                                else 
                                     counter <= 0;
@@ -91,6 +92,7 @@ process(CLK)
                                              amp <= sine(counter);
                                         else 
                                             internal_counter <= 0;
+                                             counter <= counter+1;
                                         end if;
                                else 
                                     counter <= 0;
@@ -104,6 +106,7 @@ process(CLK)
                                             amp <= sine(counter);
                                 else 
                                   internal_counter <= 0;
+                                   counter <= counter+1;
                                 end if;
                           else 
                             counter <= 0;

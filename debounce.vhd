@@ -11,7 +11,7 @@ ENTITY debounce IS
     result  : OUT STD_LOGIC); --debounced signal
 END debounce;
 
-ARCHITECTURE Behavioral OF debounce IS
+ARCHITECTURE logic OF debounce IS
   SIGNAL flipflops   : STD_LOGIC_VECTOR(1 DOWNTO 0); --input flip flops
   SIGNAL counter_set : STD_LOGIC;                    --sync reset to zero
   SIGNAL counter_out : STD_LOGIC_VECTOR(counter_size DOWNTO 0) := (OTHERS => '0'); --counter output
@@ -33,4 +33,4 @@ BEGIN
       END IF;    
     END IF;
   END PROCESS;
-END Behavioral;
+END logic;

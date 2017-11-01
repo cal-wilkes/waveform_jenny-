@@ -27,11 +27,11 @@ begin
 			
 			elsif(rising_edge(CLK)) then 
 			
-					if((counter < max_counter) and (counter < num_of_cycles)) then
+					if((counter < max_counter) and (counter < num_of_cycles-1)) then
 						counter <= counter + 1;
 						PWM <= '1';
 					
-					elsif ((counter < max_counter) and (counter >= num_of_cycles)) then 
+					elsif ((counter < max_counter) and (counter >= num_of_cycles-1)) then 
 						counter <= counter + 1;
 						PWM <= '0';
 					

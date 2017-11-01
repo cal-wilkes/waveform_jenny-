@@ -90,10 +90,10 @@ signal SIN_WAVE: STD_LOGIC := '0';
 
 	--Outputs
 	
-signal max_amp: STD_LOGIC_VECTOR (10 downto 0);
+signal max_amp_out: STD_LOGIC_VECTOR (10 downto 0);
 signal wave: std_logic := '0';
 signal FREQ: std_logic;
-signal NUM_CLOCK_CYCLES: STD_LOGIC_VECTOR (26 downto 0);
+signal NUM_CLOCK_CYCLES_OUT: STD_LOGIC_VECTOR (26 downto 0);
 signal sqr_wave1: STD_LOGIC;
 signal sin_wave1: STD_LOGIC;
 signal saw_wave1: STD_LOGIC;
@@ -118,7 +118,7 @@ uut: amplitude_counter
         clk => clk,
         reset => reset,
         BTN => BTN,
-        max_amp => max_amp
+        max_amp_out => max_amp_out
         );
 	
 uut: frequency_module		
@@ -126,7 +126,7 @@ uut: frequency_module
                       CLK => CLK,
                       BTN => btn,
                       RST => RESET,
-                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,        -- number of system clock cyles in given period
+                      NUM_CLOCK_CYCLES_OUT => NUM_CLOCK_CYCLES_OUT,        -- number of system clock cyles in given period
                       FREQ => FREQ --;                                          -- will pulse once per selected period 
                                        --CLK_CYCLE_COUNT: out STD_LOGIC_VECTOR (26 downto 0)           -- current count of the number of system clock cycles since last pulse
                            );
@@ -135,8 +135,8 @@ UUT: SQUARE_WAVE
             Port MAP ( 
                       clk => clk,
                       reset => reset,
-                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
-                      MAX_AMP => MAX_AMP,
+                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES_OUT,
+                      MAX_AMP => max_amp_out,
                       sqr_wave1 => SQR_WAVE1
                 );
 
@@ -144,8 +144,8 @@ UUT: SAW_WAVE
             Port MAP ( 
                       clk => clk,
                       reset => reset,
-                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
-                      MAX_AMP => MAX_AMP,
+                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES_OUT,
+                      MAX_AMP => max_amp_out,
                       saw_wave1 => SAW_WAVE1
                 );
 
@@ -153,8 +153,7 @@ UUT: SIN_WAVE
             Port MAP ( 
                       clk => clk,
                       reset => reset,
-                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
-                      --MAX_AMP => MAX_AMP,
+                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES_OUT,
                       sin_wave1 => SIN_WAVE1
                 );
 				
@@ -162,8 +161,8 @@ UUT: TRI_WAVE
             Port MAP ( 
                       clk => clk,
                       reset => reset,
-                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
-                      MAX_AMP => MAX_AMP,
+                      NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES_OUT,
+                      MAX_AMP => max_amp_out,
                       TRI_wave1 => TRI_WAVE1
                 );			
 
@@ -171,11 +170,11 @@ uut: wave_selector
            PORT MAP ( 
                         clk => clk, 
                         reset => reset,
-                        switch => switch,
-                        SQR_WAVE => SQR_WAVE,
-                        SAW_WAVE => SAW_WAVE,
-                        TRI_WAVE => TRI_WAVE,
-                        SIN_WAVE => SIN_WAVE,
+                        switches => switches,
+                        SQR_WAVE => sqr_wave1,
+                        SAW_WAVE => saw_wave1,
+                        TRI_WAVE => TRI_wave1,
+                        SIN_WAVE => sin_wave1,
                         wave => wave
                   );				
 				
@@ -187,45 +186,6 @@ clk_period : process
 		wait for clk_period/2;
 end process; 
 
-SQR_wave_process: process
-     begin
-     
-     SQR_WAVE <= '0';
-     wait for clk_period;
-     SQR_WAVE <= '1';
-     wait for clk_period;
-     
- end process;  
- 
-  saw_wave_process: process
-     begin
-     
-     SAW_WAVE <= '0';
-     wait for clk_period + clk_period;
-     SAW_WAVE <= '1';
-     wait for clk_period;
-     
- end process;  
- 
-  TRI_wave_process: process
-     begin
-     
-     TRI_WAVE <= '0';
-     wait for clk_period + clk_period + clk_period;
-     TRI_WAVE <= '1';
-     wait for clk_period;
-     
- end process;  
- 
-  SIN_wave_process: process
-     begin
-     
-     SIN_WAVE <= '0';
-     wait for clk_period + clk_period + clk_period + clk_period + clk_period;
-     SIN_WAVE <= '1';
-     wait for clk_period;
-     
- end process; 
 
 stim_proc: process
 	begin

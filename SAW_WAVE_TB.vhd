@@ -95,38 +95,24 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-		NUM_CLOCK_CYCLES <= 10;
+		reset <= '0';
+		wait for 100 ns;
+		reset <= '1';
+		wait for 100 ns;
+		reset <= '0';
+		wait for 100 ns;
+		
+		NUM_CLOCK_CYCLES <= 100000000;
       wait for 100 ns;	
-        MAX_AMP <= 5;
-      wait for 100 ns;   
-        MAX_AMP <= 10;
-      wait for 100 ns; 
         MAX_AMP <= 15;
-      wait for 100 ns; 
-        NUM_CLOCK_CYCLES <= 100;
-      wait for 100 ns;
-       MAX_AMP <= 5;
       wait for 100 ns;   
-       MAX_AMP <= 10;
+        MAX_AMP <= 1000;
       wait for 100 ns; 
+        NUM_CLOCK_CYCLES <= 100000;
+      wait for 100 ns;
        MAX_AMP <= 15;
-      wait for 100 ns;
-       NUM_CLOCK_CYCLES <= 1000;
-      wait for 100 ns;
-       MAX_AMP <= 5;
       wait for 100 ns;   
-       MAX_AMP <= 10;
-      wait for 100 ns; 
-       MAX_AMP <= 15;
-      wait for 100 ns;
-       NUM_CLOCK_CYCLES <= 10000;
-      wait for 100 ns;
-	   MAX_AMP <= 5;
-      wait for 100 ns;   
-       MAX_AMP <= 10;
-      wait for 100 ns; 
-       MAX_AMP <= 15;
-      wait for 100 ns;	
+       MAX_AMP <= 1000;	
       wait;
    end process;
 

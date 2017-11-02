@@ -63,7 +63,7 @@ BEGIN
                       reset => reset,
                       NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
                       MAX_AMP => MAX_AMP,
-                      sqr_wave1 => SQR_WAVE1
+                      sqr_wave1 => sqr_wave1
                 );
                 
 	

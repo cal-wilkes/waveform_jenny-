@@ -12,7 +12,7 @@ component SAW_WAVE is
 	        NUM_CLOCK_CYCLES: in integer;
 	        MAX_AMP: in integer;
 			reset: in std_logic;
-			SAW_wave1: out std_logic);
+			saw_wave1: out std_logic);
 end COMPONENT;
  
     -- Component Declaration for the Unit Under Test (UUT)
@@ -63,7 +63,7 @@ BEGIN
                       reset => reset,
                       NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
                       MAX_AMP => MAX_AMP,
-                      saw_wave1 => SAW_WAVE1
+                      saw_wave1 => saw_wave1
                 );
                 
 	

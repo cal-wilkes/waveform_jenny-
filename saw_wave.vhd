@@ -52,7 +52,7 @@ saw_jenny: PWM_JENNY
                                        max_count <= 1000000;
 
                              elsif( NUM_CLOCK_CYCLES = 100000) then 
-                                       max_count <= 1000;
+                                       max_count <= 10000;
                              end if;
 
                                
@@ -60,10 +60,10 @@ saw_jenny: PWM_JENNY
             elsif(MAX_AMP = 15) then
                                                                                                                  
                                if( NUM_CLOCK_CYCLES = 100000000) then 
-                                      max_count <= 7000000;
+                                      max_count <= 70000000;
                                       
                                elsif( NUM_CLOCK_CYCLES = 100000) then 
-                                      max_count <= 7000;
+                                      max_count <= 70000;
                               end if;                            
                       
                       end if;
@@ -82,7 +82,7 @@ begin
                         
                 
                         if((counter < NUM_CLOCK_CYCLES) and (internal_counter = max_count)) then 
-                             amp <= amp + 1;
+                             amp <= amp + 10;
                              counter <= counter+1;
                              internal_counter <= 0;
                        

@@ -50,10 +50,10 @@ begin
      if(MAX_AMP = 1000) then
                 
                   if( NUM_CLOCK_CYCLES = 100000000) then 
-                     max_count <= 200000;
+                     max_count <= 500000;
         
                   elsif( NUM_CLOCK_CYCLES = 100000) then 
-                    max_count <= 200;
+                    max_count <= 500;
                   
                   end if;
     
@@ -62,10 +62,10 @@ begin
       elsif(MAX_AMP = 15) then
                                                                                                                              
                   if( NUM_CLOCK_CYCLES = 100000000) then 
-                      max_count <= 14000000;
+                      max_count <= 35000000;
                   
                   elsif( NUM_CLOCK_CYCLES = 100000) then 
-                      max_count <= 14000;
+                      max_count <= 350000;
                   
                   end if;                            
                                   
@@ -82,12 +82,12 @@ process (CLK)
                 if(rising_edge(CLK)) then 
                 
                         if(counter < (NUM_CLOCK_CYCLES/2) and internal_counter = max_count) then 
-                             amp <= amp + 1;
+                             amp <= amp + 10;
                              counter <= counter+1;
                              internal_counter <= 0;
                         
                         elsif(counter_2 < (NUM_CLOCK_CYCLES/2) and internal_counter = max_count) then 
-                              amp <= amp - 1;
+                              amp <= amp - 10;
                               counter_2 <= counter_2+1;
                               internal_counter <= 0;
                               

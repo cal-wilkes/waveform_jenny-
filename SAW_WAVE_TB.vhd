@@ -95,12 +95,7 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-		reset <= '0';
-		wait for 100 ns;
-		reset <= '1';
-		wait for 100 ns;
-		reset <= '0';
-		wait for 100 ns;
+	
 		
 		NUM_CLOCK_CYCLES <= 100000000;
       wait for 100 ns;	

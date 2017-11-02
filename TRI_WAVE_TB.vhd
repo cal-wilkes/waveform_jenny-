@@ -15,6 +15,8 @@ component tri_wave is
 			tri_wave1: out std_logic);
 end COMPONENT;
  
+ 
+ 
     -- Component Declaration for the Unit Under Test (UUT)
  
  --   COMPONENT clock_divider
@@ -95,12 +97,7 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-		reset <= '0';
-		wait for 100 ns;
-		reset <= '1';
-		wait for 100 ns;
-		reset <= '0';
-		wait for 100 ns;
+		
 		
 		NUM_CLOCK_CYCLES <= 100000000;
       wait for 100 ns;	

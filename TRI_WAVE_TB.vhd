@@ -63,7 +63,7 @@ BEGIN
                       reset => reset,
                       NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
                       MAX_AMP => MAX_AMP,
-                      TRI_wave1 => TRI_WAVE1
+                      TRI_wave1 => TRI_wave1
                 );
                 
 	
@@ -95,6 +95,13 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
+		reset <= '0';
+		wait for 100 ns;
+		reset <= '1';
+		wait for 100 ns;
+		reset <= '0';
+		wait for 100 ns;
+		
 		NUM_CLOCK_CYCLES <= 10;
       wait for 100 ns;	
         MAX_AMP <= 5;

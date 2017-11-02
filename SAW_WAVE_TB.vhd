@@ -96,18 +96,19 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
 	
-		
+		MAX_AMP < = 1000;
+		wait for 100 ns;
 		NUM_CLOCK_CYCLES <= 100000000;
-      wait for 100 ns;	
+		wait for 100 ns;
+		NUM_CLOCK_CYCLES <= 100000;
+		wait for 100 ns;
+		
         MAX_AMP <= 15;
-      wait for 100 ns;   
-        MAX_AMP <= 1000;
-      wait for 100 ns; 
+		wait for 100 ns;   
+        NUM_CLOCK_CYCLES <= 100000000;
+		wait for 100 ns; 
         NUM_CLOCK_CYCLES <= 100000;
-      wait for 100 ns;
-       MAX_AMP <= 15;
-      wait for 100 ns;   
-       MAX_AMP <= 1000;	
+		wait for 100 ns;	
       wait;
    end process;
 

@@ -7,12 +7,12 @@ end TRI_WAVE_TB;
 ARCHITECTURE behavior OF TRI_WAVE_TB IS 
 
 
-component TRI_WAVE is
+component tri_wave is
 	port(   clk: in std_logic; 
 	        NUM_CLOCK_CYCLES: in integer;
 	        MAX_AMP: in integer;
 			reset: in std_logic;
-			TRI_wave1: out std_logic);
+			tri_wave1: out std_logic);
 end COMPONENT;
  
     -- Component Declaration for the Unit Under Test (UUT)
@@ -40,7 +40,7 @@ end COMPONENT;
   --  signal enable: std_logic := '1';
 
 	--Outputs
-    signal TRI_wave1: STD_LOGIC;
+    signal tri_wave1: STD_LOGIC;
    -- signal seconds_port: STD_LOGIC_VECTOR(4-1 downto 0);
    --- signal ten_seconds_port: STD_LOGIC_VECTOR(3-1 downto 0);
    -- signal minutes_port: STD_LOGIC_VECTOR(4-1 downto 0);
@@ -57,13 +57,13 @@ BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
 	
-	UUT: TRI_WAVE 
+	UUT: tri_wave 
             Port MAP ( 
                       clk => clk,
                       reset => reset,
                       NUM_CLOCK_CYCLES => NUM_CLOCK_CYCLES,
                       MAX_AMP => MAX_AMP,
-                      TRI_wave1 => TRI_wave1
+                      tri_wave1 => tri_wave1
                 );
                 
 	

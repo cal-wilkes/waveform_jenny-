@@ -110,7 +110,7 @@ BEGIN
         NUM_CLOCK_CYCLES <= 100000000;
 		wait for 100 ns; 
         NUM_CLOCK_CYCLES <= 100000;
-		wait for 100 ns;
+		wait for 100 ns; 
   
       
       wait;
